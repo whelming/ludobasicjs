@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <style>
+html, body {
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   height: 100%;
+}
+body {
+   background-image: url(fondodado.jpg);
+   background-size: auto;
+}
+.marker {
+   transform: perspective(40px) rotateX(20deg) rotateZ(-45deg);
+  transform-origin: 50% 50%;
+  border-radius: 50% 50% 50% 0;
+  padding: 0 3px 3px 0;
+  width: 40px;
+  height: 40px;
+  background: #ed1f34;
+  position: absolute;
+  margin: -2.2em 0 0 -1.3em;
+  -webkit-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  -moz-box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  box-shadow: -1px 1px 4px rgba(0, 0, 0, .5);
+  transition: .32s;
+  animation-timing-function: ease-in-out;
+}
+.markerred {
+  background: #ed1f34;
+}
+.markerblue {
+  background: #0850bd;
+}
+.marker:after {
+  content: '';
+  width: 1em;
+  height: 1em;
+  margin: 1em 0 0 .7em;
+  background: #ffffff;
+  position: absolute;
+  border-radius: 50%;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  -moz-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
+  -webkit-box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
+  box-shadow: inset -2px 2px 4px hsla(0, 0, 0, .5);
+}
+
+
+
+.beacon {
+  position: absolute;
+  height: 3em;
+  width: 3em;
+  border-radius: 50%;
+  -webkit-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: -1
+}
+
+.beacon:before,
+.beacon:after {
+  position: absolute;
+  content: "";
+  height: 3em;
+  width: 3em;
+  left: 0;
+  top: 0;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #ed1f34;
+  -webkit-animation: active 2s infinite linear;
+  -moz-animation: active 2s infinite linear;
+  animation: active 2s infinite linear;
+}
+
+.beacon:after {
+  -moz-animation-delay: 1s;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+@-webkit-keyframes active {
+  0% {
+    -webkit-transform: scale(.1);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes active {
+  0% {
+    transform: scale(.1);
+    transform: box-shadow(0px 0px 0px 1px #ed1f34);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+#container {
+   background-image: url(grid.png);
+   background-size: 600px;
+   width: 600px;
+   height: 600px;
+   position: relative;
+   margin: auto;
+}
+#btn {
+   position: absolute;
+   top:360px;
+   left:300px;
+}
+#pos1 {
+   top:40px;
+   left:38px;
+}
+#pos2 {
+   top:563px;
+   left:561.5px;
+}
+#dado {
+   background-image: url(dado.png);
+    width: 74px;
+    height: 73px;
+    border-radius: 23px;
+    cursor: pointer;
+    position: absolute;
+    top: 261px;
+    left: 50%;
+    margin-left: -36px;
+    z-index: 2;
+}
+#dado:hover {
+   box-shadow: 0 0 15px #fff;
+}
+.dado1 {
+   background-position-x: -18px;
+   background-position-y: -112px;
+}
+.dado2 {
+   background-position-x: -109px;
+   background-position-y: -112px;
+}
+.dado3 {
+   background-position-x: -200px;
+   background-position-y: -112px;
+}
+.dado4 {
+   background-position-x: -18px;
+   background-position-y: -22px;
+}
+.dado5 {
+   background-position-x: -109px;
+   background-position-y: -22px;
+}
+.dado6 {
+   background-position-x: -200px;
+   background-position-y: -22px;
+}
+   </style>
+</head>
+<body>
+
+   <div id="dado" class="dado2"></div>   
+   <div id="container">
+      <div id="pos1" class="marker markerred"></div>
+      <div id="pos2" class="marker markerblue"></div>
+   </div>
+   <script>
+      var dado = document.getElementById("dado");
+      var pos1 = document.getElementById("pos1");
+      var pos2 = document.getElementById("pos2");
+      var posx1 = 40;
+      var posy1 = 38;
+      var posx2 = 561.5;
+      var posy2 = 563;
+      var avanzarX = 74.5;
+      var avanzarY = 75;
+      var conteoX = 0;
+      var conteoY = 0;
+      var conteoX2 = 7;
+      var conteoY2 = 7;
+      var turno = true;
+
+      dado.onclick = function(){
+         AnimacionDado();
+         if (turno) {
+            setTimeout(function() {MoverFicha(pos1);}, 1292);
+            
+         }
+         else {
+            setTimeout(function() {MoverFicha(pos2);}, 1292);
+         }
+         turno=!turno;
+      };
+      function RandomNumber() {
+         var RandomNumber = Math.floor(Math.random() * 6) + 1;
+         return RandomNumber;
+      }
+      async function AnimacionDado() {
+         var numsleep = 66;
+         for (let i = 0; i < 10; i++) {
+            numsleep+=10;
+            var txtrandom = "dado"+RandomNumber();
+            dado.className = txtrandom;
+            // dado.classList.add(txtrandom);
+            await sleep(numsleep);
+         }
+      }
+      // btn.onclick = MoverFicha("gg");
+      function sleep(ms) {
+         return new Promise(resolve => setTimeout(resolve, ms));
+      }
+      async function MoverFicha (ficha) {
+         var RandomNumber = Math.floor(Math.random() * 6) + 1;
+         var txtrandom = "dado"+RandomNumber;
+         dado.className = txtrandom;
+         // dado.classList.add(txtrandom);
+         await sleep(444);
+         for (let i = RandomNumber; i > 0; i--) {
+            if (ficha.id=="pos1") {
+               if(conteoX<7 && conteoY==0){
+                  // console.log("right");
+                  conteoX++;
+                  posx1+=avanzarX;
+                  ficha.style.left = posx1+"px";
+               }
+               else if(conteoY<7 && conteoX==7){
+                  // console.log("bot");
+                  conteoY++;
+                  posy1+=avanzarY;
+                  ficha.style.top = posy1+"px";
+               }
+               else if(conteoX<=7 && conteoX>0){
+                  // console.log("left");
+                  conteoX--;
+                  posy1-=avanzarY;
+                  ficha.style.left = posy1+"px";
+               }
+               else if(conteoY<=7){
+                  // console.log("top");
+                  conteoY--;
+                  posx1-=avanzarX;
+                  ficha.style.top = posx1+"px";
+               }
+            }
+            else if (ficha.id=="pos2"){
+               if(conteoX2<7 && conteoY2==0){
+                  // console.log("right");
+                  conteoX2++;
+                  posx2+=avanzarX;
+                  ficha.style.left = posx2+"px";
+               }
+               else if(conteoY2<7 && conteoX2==7){
+                  // console.log("bot");
+                  conteoY2++;
+                  posy2+=avanzarY;
+                  ficha.style.top = posy2+"px";
+               }
+               else if(conteoX2<=7 && conteoX2>0){
+                  // console.log("left");
+                  conteoX2--;
+                  posy2-=avanzarY;
+                  ficha.style.left = posy2+"px";
+               }
+               else if(conteoY2<=7){
+                  // console.log("top");
+                  conteoY2--;
+                  posx2-=avanzarX;
+                  ficha.style.top = posx2+"px";
+               }
+            }; 
+            await sleep(292);
+         }
+         
+      }
+
+
+   </script>
+</body>
+</html>
