@@ -184,29 +184,49 @@ body {
    </div>
    <script>
       var dado = document.getElementById("dado");
-      var pos1 = document.getElementById("pos1");
-      var pos2 = document.getElementById("pos2");
-      var posx1 = 40;
-      var posy1 = 38;
-      var posx2 = 561.5;
-      var posy2 = 563;
+      // var pos1 = document.getElementById("pos1");
+      // var pos2 = document.getElementById("pos2");
+      // var posx1 = 40;
+      // var posy1 = 38;
+      // var posx2 = 561.5;
+      // var posy2 = 563;
       var avanzarX = 74.5;
       var avanzarY = 75;
-      var conteoX = 0;
-      var conteoY = 0;
-      var conteoX2 = 7;
-      var conteoY2 = 7;
+      // var conteoX = 0;
+      // var conteoY = 0;
+      // var conteoX2 = 7;
+      // var conteoY2 = 7;
       var turno = true;
+
+      var ficha1 = {
+         id: "pos1",
+         div:document.getElementById("pos1"),
+         posX:40,
+         posY:38,
+         contX:0,
+         contY:0
+      };
+      var ficha2 = {
+         id: "pos2",
+         div:document.getElementById("pos2"),
+         posX:561.5,
+         posY:563,
+         contX:7,
+         contY:7
+      };
 
       dado.onclick = function(){
          AnimacionDado();
-         if (turno) {
-            setTimeout(function() {MoverFicha(pos1);}, 1292);
-            
-         }
-         else {
-            setTimeout(function() {MoverFicha(pos2);}, 1292);
-         }
+         setTimeout(function() {
+            turno ? MoverFicha(ficha1) : MoverFicha(ficha2);
+            }, 1292);
+         // turno ? setTimeout(function() {MoverFicha(ficha1);}, 1292) : setTimeout(function() {MoverFicha(ficha2);}, 1292)
+         // if (turno) {
+         //    setTimeout(function() {MoverFicha(ficha1);}, 1292);
+         // }
+         // else {
+         //    setTimeout(function() {MoverFicha(ficha2);}, 1292);
+         // }
          turno=!turno;
       };
       function RandomNumber() {
@@ -234,58 +254,30 @@ body {
          // dado.classList.add(txtrandom);
          await sleep(444);
          for (let i = RandomNumber; i > 0; i--) {
-            if (ficha.id=="pos1") {
-               if(conteoX<7 && conteoY==0){
-                  // console.log("right");
-                  conteoX++;
-                  posx1+=avanzarX;
-                  ficha.style.left = posx1+"px";
-               }
-               else if(conteoY<7 && conteoX==7){
-                  // console.log("bot");
-                  conteoY++;
-                  posy1+=avanzarY;
-                  ficha.style.top = posy1+"px";
-               }
-               else if(conteoX<=7 && conteoX>0){
-                  // console.log("left");
-                  conteoX--;
-                  posy1-=avanzarY;
-                  ficha.style.left = posy1+"px";
-               }
-               else if(conteoY<=7){
-                  // console.log("top");
-                  conteoY--;
-                  posx1-=avanzarX;
-                  ficha.style.top = posx1+"px";
-               }
+            if(ficha.contX<7 && ficha.contY==0){
+               // console.log("right");
+               ficha.contX++;
+               ficha.posX+=avanzarX;
+               ficha.div.style.left = ficha.posX+"px";
             }
-            else if (ficha.id=="pos2"){
-               if(conteoX2<7 && conteoY2==0){
-                  // console.log("right");
-                  conteoX2++;
-                  posx2+=avanzarX;
-                  ficha.style.left = posx2+"px";
-               }
-               else if(conteoY2<7 && conteoX2==7){
-                  // console.log("bot");
-                  conteoY2++;
-                  posy2+=avanzarY;
-                  ficha.style.top = posy2+"px";
-               }
-               else if(conteoX2<=7 && conteoX2>0){
-                  // console.log("left");
-                  conteoX2--;
-                  posy2-=avanzarY;
-                  ficha.style.left = posy2+"px";
-               }
-               else if(conteoY2<=7){
-                  // console.log("top");
-                  conteoY2--;
-                  posx2-=avanzarX;
-                  ficha.style.top = posx2+"px";
-               }
-            }; 
+            else if(ficha.contY<7 && ficha.contX==7){
+               // console.log("bot");
+               ficha.contY++;
+               ficha.posY+=avanzarY;
+               ficha.div.style.top = ficha.posY+"px";
+            }
+            else if(ficha.contX<=7 && ficha.contX>0){
+               // console.log("left");
+               ficha.contX--;
+               ficha.posY-=avanzarY;
+               ficha.div.style.left = ficha.posY+"px";
+            }
+            else if(ficha.contY<=7){
+               // console.log("top");
+               ficha.contY--;
+               ficha.posX-=avanzarX;
+               ficha.div.style.top = ficha.posX+"px";
+            }
             await sleep(292);
          }
          
